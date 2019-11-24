@@ -15,8 +15,8 @@ import (
 
 // FrameImage add frames to a given image either Horizonal/Veritcal
 func FrameImage(srcPath, outputPath string) {
-	var resizeProfile util.SizeProfile
 	var squareSize int
+	var resizeProfile util.SizeProfile
 
 	imageBytes, err := ioutil.ReadFile(srcPath)
 	originalFileDimensions, _ := util.ImageDimensions(srcPath)
@@ -62,6 +62,7 @@ func FrameImage(srcPath, outputPath string) {
 	draw.Draw(mask, bounds, img, *imagePoint, draw.Src)
 
 	toImage, _ := os.Create(outputPath)
+
 	defer toImage.Close()
 
 	jpeg.Encode(toImage, mask, &jpeg.Options{
