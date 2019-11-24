@@ -18,24 +18,6 @@ type SizeProfile struct {
 	Width  uint
 }
 
-// Square size image dimensions
-var Square SizeProfile = SizeProfile{
-	Height: 1080,
-	Width:  1080,
-}
-
-// Vertical size image dimensions
-var Vertical SizeProfile = SizeProfile{
-	Height: 1080,
-	Width:  1350,
-}
-
-// Horizontal size image dimensions
-var Horizontal SizeProfile = SizeProfile{
-	Height: 1080,
-	Width:  566,
-}
-
 // NewSizeProfile creates a SizeProfile given a dimension string
 // such as "500x500"
 func NewSizeProfile(str string) (*SizeProfile, error) {

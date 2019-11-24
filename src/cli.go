@@ -52,11 +52,10 @@ func readFlags(cli *Cli) {
 	}
 
 	if *isFraming {
-		if *inputFile != "" && *outputPath != "" && *dimensions != "" {
+		if *inputFile != "" && *outputPath != "" {
 			cli.Task = Frame
 			cli.SourceFile = *inputFile
 			cli.OutputPath = *outputPath
-			cli.Dimensions = *dimensions
 		} else {
 			log.Fatal("Missing --out and dimensions string to add frames to an image")
 		}
@@ -87,13 +86,7 @@ func (cli Cli) Start() {
 		break
 
 	case Frame:
-		sizeProfile, err := util.NewSizeProfile(cli.Dimensions)
-
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		task.FrameImage(cli.SourceFile, cli.OutputPath, *sizeProfile)
+		task.FrameImage(cli.SourceFile, cli.OutputPath)
 		break
 	}
 }
