@@ -52,8 +52,9 @@ func readFlags(cli *Cli) {
 	}
 
 	if *isFraming {
-		if *outputPath != "" && *dimensions != "" {
+		if *inputFile != "" && *outputPath != "" && *dimensions != "" {
 			cli.Task = Frame
+			cli.SourceFile = *inputFile
 			cli.OutputPath = *outputPath
 			cli.Dimensions = *dimensions
 		} else {
@@ -92,7 +93,7 @@ func (cli Cli) Start() {
 			log.Fatal(err)
 		}
 
-		task.FrameImage(cli.OutputPath, *sizeProfile)
+		task.FrameImage(cli.SourceFile, cli.OutputPath, *sizeProfile)
 		break
 	}
 }
