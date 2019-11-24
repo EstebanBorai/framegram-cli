@@ -45,5 +45,7 @@ func FrameImage(srcPath, outputPath string, sizeProfile util.SizeProfile) {
 	toImage, _ := os.Create(outputPath)
 	defer toImage.Close()
 
-	jpeg.Encode(toImage, mask, nil)
+	jpeg.Encode(toImage, mask, &jpeg.Options{
+		Quality: 100,
+	})
 }
