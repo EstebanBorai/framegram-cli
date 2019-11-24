@@ -10,7 +10,6 @@ import (
 	"strings"
 
 	"github.com/nfnt/resize"
-	rze "github.com/nfnt/resize"
 )
 
 // SizeProfile represents the size of the picture in pixels
@@ -77,7 +76,7 @@ func Resize(source []byte, profile SizeProfile) []byte {
 		log.Fatal(err)
 	}
 
-	resizedImage := rze.Resize(profile.Width, profile.Height, img, resize.Lanczos3)
+	resizedImage := resize.Resize(profile.Width, profile.Height, img, resize.Lanczos3)
 
 	err = jpeg.Encode(buff, resizedImage, nil)
 

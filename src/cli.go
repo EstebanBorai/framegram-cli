@@ -13,8 +13,10 @@ import (
 type Task string
 
 const (
-	// Resize operation
+	// Resize task
 	Resize Task = "resize"
+	// Frame task
+	Frame Task = "frame"
 )
 
 // Cli manages all possible framegram operations
@@ -28,6 +30,8 @@ type Cli struct {
 
 func readFlags(cli *Cli) {
 	isResizing := flag.Bool("resize", false, "Resizes an Image")
+	isFraming := flag.Bool("frame", false, "Add frames to an Image")
+
 	inputFile := flag.String("src", "", "Source file")
 	outputPath := flag.String("out", "", "Output path")
 	dimensions := flag.String("dimensions", "", "Dimensions to set the image (Eg: 500x500 [width x height])")
@@ -45,6 +49,16 @@ func readFlags(cli *Cli) {
 		}
 
 		return
+	}
+
+	if *isFraming {
+		if *outputPath != "" && *dimensions != "" {
+			cli.Task = Frame
+			cli.OutputPath = *outputPath
+			cli.Dimensions = *dimensions
+		} else {
+			log.Fatal("Missing --out and dimensions string to add frames to an image")
+		}
 	}
 }
 
@@ -69,6 +83,16 @@ func (cli Cli) Start() {
 		}
 
 		task.ResizeImage(cli.SourceFile, cli.OutputPath, *sizeProfile)
+		break
+
+	case Frame:
+		sizeProfile, err := util.NewSizeProfile(cli.Dimensions)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		task.FrameImage(cli.OutputPath, *sizeProfile)
 		break
 	}
 }
