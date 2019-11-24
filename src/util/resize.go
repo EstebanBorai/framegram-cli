@@ -67,7 +67,7 @@ func NewSizeProfile(str string) (*SizeProfile, error) {
 
 // Resize image while keeping the aspect ratio of the original
 // dimensions
-func Resize(source []byte, profile SizeProfile) []byte {
+func Resize(source []byte, profile SizeProfile) ([]byte, SizeProfile) {
 	buff := new(bytes.Buffer)
 
 	img, _, err := image.Decode(bytes.NewReader(source))
@@ -84,5 +84,14 @@ func Resize(source []byte, profile SizeProfile) []byte {
 		log.Fatal(err)
 	}
 
-	return buff.Bytes()
+	imageBytes := buff.Bytes()
+
+	imageProps, _, _ := image.DecodeConfig(bytes.NewReader(imageBytes))
+
+	dimensions := SizeProfile{
+		Height: uint(imageProps.Height),
+		Width:  uint(imageProps.Width),
+	}
+
+	return imageBytes, dimensions
 }

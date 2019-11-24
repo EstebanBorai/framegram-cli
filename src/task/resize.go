@@ -15,7 +15,7 @@ func ResizeImage(srcPath, outputPath string, sizeProfile util.SizeProfile) {
 		log.Fatal(err)
 	}
 
-	resizedBytes := util.Resize(data, sizeProfile)
+	resizedBytes, _ := util.Resize(data, sizeProfile)
 
 	err = ioutil.WriteFile(outputPath, resizedBytes, 0777)
 

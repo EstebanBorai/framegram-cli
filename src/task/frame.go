@@ -3,6 +3,7 @@ package task
 import (
 	"bytes"
 	"image"
+	"image/color"
 	"image/draw"
 	"image/jpeg"
 	"io/ioutil"
@@ -20,16 +21,14 @@ func FrameImage(srcPath, outputPath string, sizeProfile util.SizeProfile) {
 		log.Fatal(err)
 	}
 
-	// TODO: Get image size
-
-	resizedBytes := util.Resize(imageBytes, util.SizeProfile{
+	resizedBytes, resizedDimensions := util.Resize(imageBytes, util.SizeProfile{
 		Height: 0,
 		Width:  sizeProfile.Width,
 	})
 
-	buff := bytes.NewBuffer(resizedBytes)
+	imagePoint := image.Point{0, -int(resizedDimensions.Height / 4)}
 
-	pict := image.NewRGBA(image.Rect(0, 0, int(sizeProfile.Width), int(sizeProfile.Height)))
+	buff := bytes.NewBuffer(resizedBytes)
 
 	img, _, err := image.Decode(buff)
 
@@ -37,10 +36,14 @@ func FrameImage(srcPath, outputPath string, sizeProfile util.SizeProfile) {
 		log.Fatal(err)
 	}
 
-	draw.Draw(pict, pict.Bounds(), img, image.Point{0, -1 * start}, draw.Src)
+	bounds := image.Rect(0, 0, int(sizeProfile.Width), int(sizeProfile.Height))
+	mask := image.NewRGBA(bounds)
+
+	draw.Draw(mask, bounds, image.NewUniform(color.White), image.ZP, draw.Src)
+	draw.Draw(mask, bounds, img, imagePoint, draw.Src)
 
 	toImage, _ := os.Create(outputPath)
 	defer toImage.Close()
 
-	jpeg.Encode(toImage, pict, nil)
+	jpeg.Encode(toImage, mask, nil)
 }
