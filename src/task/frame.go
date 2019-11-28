@@ -77,16 +77,20 @@ func calcImagePoint(imageDimensions, maskDimensions *util.SizeProfile) *image.Po
 	height, width := imageDimensions.Height, imageDimensions.Width
 
 	if width > height {
+		whiteSpace := -1 * int((maskDimensions.Width-height)/2)
+
 		return &image.Point{
 			X: 0,
-			Y: -int(height / 4),
+			Y: whiteSpace,
 		}
 	}
 
 	if height > width {
+		whiteSpace := -1 * int((maskDimensions.Height-width)/2)
+
 		return &image.Point{
-			X: 0,
-			Y: int(maskDimensions.Width / 4),
+			X: whiteSpace,
+			Y: 0,
 		}
 	}
 
