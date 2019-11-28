@@ -12,8 +12,8 @@ go install
 ```
 
 ## Usage
-- [Frame]()
-- [Resize]()
+- [Frame](https://github.com/estebanborai/framegram#frame)
+- [Resize](https://github.com/estebanborai/framegram#resize)
 
 ### Frame
 > Add frames to an Image
