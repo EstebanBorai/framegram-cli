@@ -1,5 +1,5 @@
 # framegram
-📷 Add frames to pictures for Instagram from a CLI
+📷 Manipulate images for Instagram from a CLI
 
 ## Installation
 *framegram* can be installed using golang's *install* command as follows.
