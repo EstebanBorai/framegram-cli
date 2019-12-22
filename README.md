@@ -1,4 +1,4 @@
-# framegram
+# framegram-cli
 📷 Manipulate images for Instagram from a CLI
 
 ## Installation
